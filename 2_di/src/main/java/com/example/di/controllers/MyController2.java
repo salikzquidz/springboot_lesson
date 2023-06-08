@@ -4,6 +4,7 @@ import com.example.di.services.SayHello;
 import com.example.di.services.SayHelloImpl;
 import org.springframework.stereotype.Controller;
 
+// dependency without injection
 @Controller
 public class MyController2 {
     private final SayHello sayHello;
