@@ -5,6 +5,7 @@ import com.example.restmvc.services.BeerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,7 +23,8 @@ public class BeerController {
         return beerService.listBeers();
     }
 
-    public Beer getBeerById(UUID id){
+    @RequestMapping("/api/v1/beer/{beerId}")
+    public Beer getBeerById(@PathVariable("beerId") UUID id){
         log.debug("Calling beer service");
         return beerService.getBeerById(id);
     }
