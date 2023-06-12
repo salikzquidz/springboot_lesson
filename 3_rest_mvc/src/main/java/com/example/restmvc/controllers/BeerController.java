@@ -4,6 +4,7 @@ import com.example.restmvc.model.Beer;
 import com.example.restmvc.services.BeerService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,9 @@ public class BeerController {
     @PostMapping("/api/v1/beer")
     public ResponseEntity<Beer> postBeer(@RequestBody Beer beer){
         Beer savedBeer = beerService.createBeer(beer);
-        return new ResponseEntity(HttpStatus.CREATED);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "/api/v1/beer/" + savedBeer.getId().toString());
+
+        return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 }
