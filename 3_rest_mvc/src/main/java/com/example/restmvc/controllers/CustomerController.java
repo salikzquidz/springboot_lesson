@@ -3,9 +3,10 @@ package com.example.restmvc.controllers;
 import com.example.restmvc.model.Customer;
 import com.example.restmvc.services.CustomerService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,5 +23,14 @@ public class CustomerController {
     @RequestMapping("/api/v1/customer/{id}")
     public Customer getCustomerById(@PathVariable("id") UUID id){
         return customerService.getCustomerById(id);
+    }
+
+    @PostMapping("/api/v1/customer")
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
+        Customer savedCustomer = customerService.createCustomer(customer);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Location", "/api/v1/customer/" + savedCustomer.getId().toString());
+
+        return new ResponseEntity(httpHeaders, HttpStatus.CREATED);
     }
 }
