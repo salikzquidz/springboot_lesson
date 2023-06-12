@@ -1,6 +1,7 @@
 package com.example.restmvc.services;
 
 import com.example.restmvc.model.Beer;
+import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,4 +11,6 @@ public interface BeerService {
 
     List<Beer> listBeers();
     Beer getBeerById(UUID id);
+
+    Beer createBeer(Beer beer);
 }
