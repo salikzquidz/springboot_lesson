@@ -1,8 +1,8 @@
 package com.example.restmvc.controllers;
 
-import com.example.restmvc.model.Beer;
-import com.example.restmvc.services.BeerService;
-import com.example.restmvc.services.BeerServiceImpl;
+import com.example.restmvc.model.Customer;
+import com.example.restmvc.services.CustomerService;
+import com.example.restmvc.services.CustomerServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -13,29 +13,30 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 import static org.mockito.BDDMockito.given;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.any;
 
-@WebMvcTest(BeerController.class) // test splice
-class BeerControllerTest {
+@WebMvcTest(CustomerController.class)
+class CustomerControllerTest {
+
     @Autowired
     MockMvc mockMvc;
 
     @MockBean
-    BeerService beerService;
+    CustomerService customerService;
 
-    BeerServiceImpl beerServiceImpl = new BeerServiceImpl();
+    CustomerServiceImpl customerServiceImpl = new CustomerServiceImpl();
 
     @Test
-    void getBeerById() throws Exception {
-        Beer testBeer = beerServiceImpl.listBeers().get(0); // get first beer in the mapping
+    void getCustomerById() throws Exception{
+        Customer testCustomer = customerServiceImpl.listCustomers().get(0);
 
-        given(beerService.getBeerById(any(UUID.class))).willReturn(testBeer); // mock the return value
+        given(customerService.getCustomerById(any(UUID.class))).willReturn(testCustomer);
 
-        mockMvc.perform(get("/api/v1/beer/" + UUID.randomUUID())
+        mockMvc.perform(get("/api/v1/customer/" + testCustomer.getId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
