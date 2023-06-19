@@ -46,6 +46,13 @@ class CustomerControllerTest {
                 .andExpect(jsonPath("$.id", is(testCustomer.getId().toString())))
                 .andExpect(jsonPath("$.name", is(testCustomer.getName().toString())))
                 .andExpect(jsonPath("$.age", is(testCustomer.getAge())));
+    }
 
+    @Test
+    void listCustomers() throws Exception {
+        given(customerService.listCustomers()).willReturn(customerServiceImpl.listCustomers());
+
+        mockMvc.perform(get("/api/v1/customers"))
+                .andExpect(jsonPath("$.length()",is(3)));
     }
 }

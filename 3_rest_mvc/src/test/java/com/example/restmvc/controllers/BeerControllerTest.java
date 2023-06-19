@@ -51,4 +51,12 @@ class BeerControllerTest {
                 .andExpect(jsonPath("$.upc", is(testBeer.getUpc())))
                 .andExpect(jsonPath("$.price", is(testBeer.getPrice().doubleValue()))); // https://stackoverflow.com/questions/71253810/json-path-with-big-decimal-expected-is-1000-but-was-1000
     }
+
+    @Test
+    void listBeers() throws Exception {
+        given(beerService.listBeers()).willReturn(beerServiceImpl.listBeers());
+
+        mockMvc.perform(get("/api/v1/beers"))
+                .andExpect(jsonPath("$.length()", is(3)));
+    }
 }
